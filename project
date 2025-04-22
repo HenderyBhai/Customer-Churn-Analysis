@@ -1,0 +1,133 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+print(df.head(5))
+
+#checking the datatype
+print(df.info())
+
+#checking the null values in dataframe
+print(df.isnull().sum())
+
+#replacing blanks with 0 as Tenure is 0
+df['TotalCharges']= df['TotalCharges'].replace(' ','0')
+df['TotalCharges']= df['TotalCharges'].astype('float')
+print(df.info())
+
+#description of dataframe(numeric)
+print(df.describe())
+
+#checking duplicates
+print(df['customerID'].duplicated().sum())
+
+#convert 0 & 1 value of SeniorCitizen to Yes & No to make it easier to understand
+def conv(value):
+    if value== 1:
+        return 'Yes'
+    else:
+        return 'No'
+df['SeniorCitizen']=df['SeniorCitizen'].apply(conv)
+print(df.head(22))
+
+#Churn by gender
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+ax=sns.countplot(x='gender', data=df, hue='Churn')
+ax.bar_label(ax.containers[0])
+plt.show()
+
+#percentage of Churn Customers
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+plt.figure(figsize=(3,4))
+gb = df.groupby('Churn').agg({'Churn':"count"})
+plt.pie(gb['Churn'], labels=gb.index,autopct="%1.2f%%")
+plt.title("Percentage of Churn Customers", fontsize=10)
+plt.show()
+#we conclude that26.54% of customers have churned out
+
+
+#Churn by Contract
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+ax=sns.countplot(x='Contract', data=df, hue="Churn" )
+ax.bar_label(ax.containers[0])
+plt.title("Churn by Contract")
+plt.show()
+#people who have month to month contract are likely to churn tan from those who have 1 or 2 year of contract
+
+#Churn by payment
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+ax=sns.countplot(x='PaymentMethod', data=df, hue="Churn" )
+ax.bar_label(ax.containers[0])
+ax.bar_label(ax.containers[1])
+plt.xticks(rotation= 45)
+plt.title("Churn by Payment Method")
+plt.show()
+#customers is likely to churn when he is using electronic check as a payment method
+
+#Churn by Senior citizen
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+ax=sns.countplot(x='SeniorCitizen', data=df , hue='Churn')
+ax.bar_label(ax.containers[0])
+plt.title("Churn by Senior Citizen")
+plt.show()
+
+"""Churn by Services:'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
+    'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies'"""
+import pandas as  pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+# Example dataframe: replace with your actual DataFrame
+import pandas as pd
+# df = pd.read_csv('your_data.csv')  # Uncomment and load your data
+
+# List of columns to plot
+columns = [
+    'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
+    'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies'
+]
+
+# Set up the subplot grid: 3 rows, 3 columns
+fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(18, 12))
+axes = axes.flatten()  # Flatten to easily loop
+
+# Plot each column
+for i, col in enumerate(columns):
+    sns.countplot(data=df, x=col, ax=axes[i], palette='Set2')
+    axes[i].set_title(f'Count of {col}')
+    axes[i].set_xlabel('')
+    axes[i].set_ylabel('Count')
+    axes[i].tick_params(axis='x', rotation=45)
+
+# Adjust layout
+plt.tight_layout()
+plt.show()
+
+"""Customers who lack support services like online security, tech support, and backups appear more likely to churn
+Those with fiber optic internet also show higher churn rates compared to DSL or no internet
+Meanwhile, features like phone service and streaming options have a more balanced churn distribution
+though subtle trends suggest bundled services may impact customer retention"""
+
+#Churn by tenure
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('C:/Users/Elvin Bhai/Downloads/Telco-Customer-Churn.csv')
+ax=sns.histplot(x='tenure', data=df , hue='Churn')
+ax.bar_label(ax.containers[0])
+plt.title("Churn by tenure")
+plt.show()
